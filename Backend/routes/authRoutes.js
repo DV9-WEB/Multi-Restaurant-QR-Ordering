@@ -11,7 +11,7 @@ import {
   uploadFoodImage,
   uploadRestaurantImage as uploadRestaurantImg,
 } from "../middleware/uploadMiddleware.js";
-
+import { updateUserProfile } from "../controllers/authController.js";
 const router = express.Router();
 
 router.post("/register", registerUser);
@@ -43,6 +43,14 @@ router.put(
   restaurantOwner,
   uploadRestaurantImg.single("image"),
   uploadRestaurantImage
+);
+
+router.put(
+  "/profile",
+  protect,
+  restaurantOwner,
+  uploadRestaurantImg.single("image"),
+  updateUserProfile
 );
 
 export default router;

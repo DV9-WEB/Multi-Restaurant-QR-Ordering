@@ -33,7 +33,13 @@ connectDB();
 
 // Middleware
 app.use(express.json()); // Parse JSON request body
-app.use(cors()); // Enable CORS
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 app.use(errorHandler);
 
 const server = http.createServer(app); // ✅ Create HTTP Server

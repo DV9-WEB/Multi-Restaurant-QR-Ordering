@@ -157,3 +157,32 @@ export const uploadRestaurantImage = async (req, res) => {
   }
 };
 
+// 🔁 Update User Profile
+export const updateUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const { name } = req.body;
+    if (name) user.name = name;
+
+    if (req.file) {
+      user.restaurantImage = req.file.path;
+    }
+
+    await user.save();
+
+    res.json({
+      message: "Profile updated successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        restaurantImage: user.restaurantImage,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
